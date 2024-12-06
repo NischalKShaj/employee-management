@@ -43,14 +43,14 @@ const userSlice = createSlice({
     // for updating
     updateUser: (state, action) => {
       const { email, updates } = action.payload;
-      const existingUser = state.users.findIndex(
-        (user) => user.email === email
-      );
+      const userIndex = state.users.findIndex((user) => user.email === email);
 
-      if (existingUser == -1) {
-        throw new Error("user does not exist");
+      if (userIndex === -1) {
+        throw new Error("User does not exist");
       }
-      state.users[existingUser] = { ...state.users[existingUser], updates };
+
+      state.users[userIndex] = { ...state.users[userIndex], ...updates };
+
       if (state.currentUser && state.currentUser.email === email) {
         state.currentUser = { ...state.currentUser, ...updates };
       }
